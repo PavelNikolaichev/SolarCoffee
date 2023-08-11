@@ -26,5 +26,4 @@ namespace SolarCoffee.Data.Models
         [MaxLength(64)]
         public string Country { get; set; }
     }
-    }
 }
