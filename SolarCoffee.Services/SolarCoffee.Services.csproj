@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SolarCoffee.Data\SolarCoffee.Data.csproj" />
+  </ItemGroup>
+
 </Project>
