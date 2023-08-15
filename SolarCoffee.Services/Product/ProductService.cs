@@ -69,6 +69,11 @@ public class ProductService : IProductService
         }
     }
 
+    /// <summary>
+    /// Archieve product.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>Product instance or null in case of error</returns>
     public ServiceResponse<Data.Models.Product?> ArchiveProduct(int id)
     {
         Data.Models.Product? product = this.GetProduct(id);

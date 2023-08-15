@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SolarCoffee.Data.Models;
 using SolarCoffee.Services.Product;
 
 namespace SolarCoffee.Web.Controllers;
@@ -21,8 +22,8 @@ public class ProductController : ControllerBase
     {
         logger.LogInformation("Getting all products...");
 
-        productService.GetAllProducts();
+        List<Product> products = productService.GetAllProducts();
 
-        return Ok("ProductModel>new ProductModel());");
+        return Ok(products);
     }
 }
