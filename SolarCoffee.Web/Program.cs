@@ -14,7 +14,7 @@ builder.Services.AddDbContext<SolarDbContext>(opts => {
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<ICustomerService, CustomerService>();
 
 var app = builder.Build();
 
