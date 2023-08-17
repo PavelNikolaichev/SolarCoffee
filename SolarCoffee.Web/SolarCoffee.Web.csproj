@@ -18,9 +18,4 @@
     <ProjectReference Include="..\SolarCoffee.Services\SolarCoffee.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Serializers\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>
