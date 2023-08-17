@@ -16,16 +16,22 @@ public class InventoryService : IInventoryService
         this.logger = logger;
     }
 
-    public void CreateSnapshot()
+    private void CreateSnapshot(ProductInventory inventory)
     {
-        throw new NotImplementedException();
+        var snapshot = new ProductInventorySnapshot
+        {
+            SnapshotTime = DateTime.UtcNow,
+            Product = inventory.Product,
+            QuantityOnHand = inventory.QuantityOnHand,
+        };
+
+        db.Add(snapshot);
     }
 
-    public ServiceResponse<bool> DeleteCustomer(int id)
-    {
-        throw new NotImplementedException();
-    }
-
+    /// <summary>
+    /// Returns list of ProductInventory models
+    /// </summary>
+    /// <returns></returns>
     public List<ProductInventory> GetCurrentInventory()
     {
         return db.ProductInventories
@@ -34,29 +40,52 @@ public class InventoryService : IInventoryService
             .ToList();
     }
 
+    /// <summary>
+    /// Returns inventory by product id
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public ProductInventory? GetInventory(int productId)
     {
-        throw new NotImplementedException();
+        return db.ProductInventories
+                .Include(pi => pi.Product)
+                .FirstOrDefault(pi => pi.Product.Id == productId);
     }
 
+    /// <summary>
+    /// Returns list of ProductInventorySnapshot models
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
     public List<ProductInventorySnapshot> GetSnapshotHistory()
     {
-        throw new NotImplementedException();
+        // E.g. We filterl snapshots by last x hours
+        var from = DateTime.UtcNow - TimeSpan.FromHours(4);
+
+        return db.ProductInventorySnapshots
+            .Include(snapshot => snapshot.Product)
+            .Where(snapshot => snapshot.SnapshotTime > from && !snapshot.Product.IsArchieved)
+            .ToList();
     }
 
-    public ServiceResponse<ProductInventory?> UpdateUnitsAvailable(int id, int adjustment)
+    /// <summary>
+    /// Update available units for record
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <param name="adjustment"></param>
+    /// <returns></returns>
+    public ServiceResponse<ProductInventory?> UpdateUnitsAvailable(int productId, int adjustment)
     {
         try
         {
-            var inventory = db.ProductInventories
-                .Include(pi => pi.Product)
-                .First(pi => pi.Product.Id == id);
+            var inventory = this.GetInventory(productId);
 
             inventory.QuantityOnHand += adjustment;
 
             try
             {
-                CreateSnapshot();
+                CreateSnapshot(inventory);
             }
             catch (Exception ex)
             {
@@ -70,10 +99,10 @@ public class InventoryService : IInventoryService
             {
                 IsSuccess = true,
                 Data = inventory,
-                Message = $"Product {id} inventory adjusted!"
+                Message = $"Product {productId} inventory adjusted!"
             };
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return new ServiceResponse<ProductInventory?>
             {

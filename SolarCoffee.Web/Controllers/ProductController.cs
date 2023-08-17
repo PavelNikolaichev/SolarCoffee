@@ -9,9 +9,9 @@ namespace SolarCoffee.Web.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> logger;
-    private readonly ICustomerService productService;
+    private readonly IProductService productService;
 
-    public ProductController(ILogger<ProductController> logger, ICustomerService productService)
+    public ProductController(ILogger<ProductController> logger, IProductService productService)
     {
         this.logger = logger;
         this.productService = productService;

@@ -8,11 +8,7 @@ public interface IInventoryService
 
     ServiceResponse<Data.Models.ProductInventory?> UpdateUnitsAvailable(int id, int adjustment);
 
-    ServiceResponse<bool> DeleteCustomer(int id);
-
     Data.Models.ProductInventory? GetInventory(int productId);
-
-    public void CreateSnapshot();
 
     public List<ProductInventorySnapshot> GetSnapshotHistory();
 }
