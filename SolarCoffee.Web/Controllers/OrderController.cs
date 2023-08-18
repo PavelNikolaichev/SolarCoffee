@@ -32,7 +32,7 @@ public class OrderController : ControllerBase
 
         var order = OrderMapper.SerializeInvoiceToOrder(invoice);
         order.Customer = customerService.GetCustomer(invoice.CustomerId);
-
+        orderService.GenerateInvoice(order);
         return Ok();
     }
 }
