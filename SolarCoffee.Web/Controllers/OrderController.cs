@@ -35,4 +35,22 @@ public class OrderController : ControllerBase
         orderService.GenerateInvoice(order);
         return Ok();
     }
+
+    [HttpGet("/api/order")]
+    public ActionResult GetOrders()
+    {
+        var orders = orderService.GetAllOrders();
+
+        return Ok(OrderMapper.SerializeOrdersToViewModels(orders));
+    }
+
+    [HttpPatch("/api/order/complete/{id}")]
+    public ActionResult MarkOrderComplete(int id)
+    {
+        logger.LogInformation($"Marking order {id} complete...");
+
+        orderService.MarkFulfilled(id);
+
+        return Ok();
+    }
 }
