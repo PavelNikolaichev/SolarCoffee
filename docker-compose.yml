@@ -8,4 +8,6 @@ services:
         POSTGRES_USER: root
         POSTGRES_PASSWORD: toor
         POSTGRES_DB: solardev
+    ports:
+      - "6543:5432"
     
